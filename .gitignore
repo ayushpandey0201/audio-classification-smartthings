@@ -27,3 +27,5 @@ results/checkpoints/
 # Generated results
 results/metrics/
 results/plots/
+*.swp
+__pycache__/

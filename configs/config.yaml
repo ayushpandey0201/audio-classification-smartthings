@@ -1,0 +1,32 @@
+# Training Configuration — kitpri_v2 Binary Audio Classification
+data:
+  sample_rate: 32000
+  duration: 10  # seconds
+  n_mels: 128
+  hop_length: 320
+  n_fft: 1024
+
+training:
+  seed: 42
+  batch_size: 24
+  num_workers: 4
+
+  stage1:
+    epochs: 8
+    lr: 3.0e-4
+    frozen: true  # backbone frozen, only heads train
+
+  stage2:
+    epochs: 40
+    lr: 5.0e-5
+    scheduler: CosineAnnealingLR
+    unfreeze_cnn14: true
+    unfreeze_ast_layers: 4  # last 4 transformer blocks
+
+  weight_decay: 5.0e-3
+  label_smoothing: 0.05
+  pos_weight: 1.2  # corrects noncooking recall bias
+
+ensemble:
+  cnn14_weight: 0.35
+  ast_weight: 0.65  # AST-heavy since AST outperforms CNN14

@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+dist/
+build/
+
+# Notebooks and operating systems
+.ipynb_checkpoints/
+.DS_Store
+
+# Audio and datasets
+*.wav
+*.mp3
+data/raw/
+data/processed/
+
+# Model artifacts
+*.pt
+*.pth
+*.ckpt
+results/checkpoints/
+
+# Generated results
+results/metrics/
+results/plots/

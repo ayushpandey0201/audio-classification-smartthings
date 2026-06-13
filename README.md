@@ -25,6 +25,12 @@ This project solves the challenge of performing high-accuracy acoustic scene cla
 
 We built a live Telegram bot that accepts audio clips and returns real-time predictions. 
 
+**Try it live right now!**
+- 🥇 **Primary Bot:** [@kitpribot](https://t.me/kitpribot)
+- 🥈 **Secondary Bot:** [@binary_cooking_bot](https://t.me/binary_cooking_bot)
+
+*(Just click a link above, press start, and send it an audio file or voice message!)*
+
 <p align="center">
   <img src="demo/demo.gif" alt="Telegram Bot Demo" width="300"/>
 </p>

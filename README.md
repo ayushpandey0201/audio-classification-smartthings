@@ -31,6 +31,10 @@ We built a live Telegram bot that accepts audio clips and returns real-time pred
 
 *(Just click a link above, press start, and send it an audio file or voice message!)*
 
+**Need some audio to test with? Download these samples:**
+- 🍳 [Download Cooking Sample (Frying)](demo/cooking_frying.wav)
+- 🗣️ [Download Non-Cooking Sample (Speech)](demo/noncooking_speech.wav)
+
 <p align="center">
   <img src="demo/demo.gif" alt="Telegram Bot Demo" width="300"/>
 </p>

@@ -25,12 +25,26 @@ This project solves the challenge of performing high-accuracy acoustic scene cla
 
 We built a live Telegram bot that accepts audio clips and returns real-time predictions. 
 
+<p align="center">
+  <img src="demo/demo.gif" alt="Telegram Bot Demo" width="300"/>
+</p>
+
+### How to run the bot:
+1. Ensure your virtual environment is active (`source .venv/bin/activate`).
+2. Run the bot from your terminal:
+   ```bash
+   make bot
+   ```
+3. Open Telegram and search for your bot (or click the `t.me/...` link provided by BotFather).
+4. **Send an audio file** or **record a voice message** directly in the chat.
+5. The bot will instantly reply with the classification:
+
 ```text
 User  → [sends .wav / .m4a / voice message]
 Bot   → 🍳 Cooking (confidence: 94.2%)
 ```
 
-See the [`telegram_bot/README.md`](telegram_bot/README.md) for instructions on running the bot yourself, and the [`demo/`](demo/) folder for example audio files.
+See the [`telegram_bot/README.md`](telegram_bot/README.md) for more details on architecture and adding your bot token. The [`demo/`](demo/) folder contains example audio files you can test with.
 
 ---
 

@@ -18,10 +18,10 @@ train:
 	$(PYTHON) -m src.train --config configs/config.yaml --train-csv data/raw/kitpri-v2/metadata/train.csv --val-csv data/raw/kitpri-v2/metadata/val.csv --data-root data/raw/kitpri-v2
 
 evaluate:
-	$(PYTHON) -m src.evaluate --config configs/config.yaml --csv data/raw/kitpri-v2/metadata/test.csv --threshold-csv data/raw/kitpri-v2/metadata/val.csv --data-root data/raw/kitpri-v2 --checkpoint results/checkpoints/best.pt
+	$(PYTHON) -m src.evaluate --config configs/config.yaml --csv data/raw/kitpri-v2/metadata/test.csv --threshold-csv data/raw/kitpri-v2/metadata/val.csv --data-root data/raw/kitpri-v2 --checkpoint telegram_bot/best_ckpt.pt
 
 bot:
-	$(PYTHON) -m telegram_bot.bot --ckpt results/checkpoints/best.pt
+	$(PYTHON) -m telegram_bot.bot --ckpt telegram_bot/best_ckpt.pt
 
 clean:
 	rm -rf .pytest_cache

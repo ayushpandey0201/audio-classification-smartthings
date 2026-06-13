@@ -51,7 +51,7 @@ ensemble:
   ast_weight: 0.55     # notebook CFG.AST_WEIGHT  = 0.55
 
 evaluation:
-  threshold: 0.5
+  threshold: 0.85
   # Threshold search range tested in notebook: 0.3 → 0.6 (best was 0.6)
   threshold_search:
     minimum: 0.30

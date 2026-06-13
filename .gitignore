@@ -4,19 +4,29 @@ __pycache__/
 *.egg-info/
 .venv/
 venv/
+env/
 .env
+secrets.yaml
 dist/
 build/
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/
+.ruff_cache/
 
 # Notebooks and operating systems
 .ipynb_checkpoints/
 .DS_Store
+Thumbs.db
 
 # Audio and datasets
 *.wav
 *.mp3
+*.flac
 data/raw/
 data/processed/
+data/metadata/*.csv
 
 # Model artifacts
 *.pt
@@ -29,3 +39,7 @@ results/metrics/
 results/plots/
 *.swp
 __pycache__/
+
+# Editors
+.idea/
+.vscode/

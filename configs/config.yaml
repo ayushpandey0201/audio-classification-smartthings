@@ -1,32 +1,59 @@
 # Training Configuration — kitpri_v2 Binary Audio Classification
+# Hyperparameters match Phase 7 of kit-pri-v2.ipynb (Kaggle, 2026-06-09)
 data:
   sample_rate: 32000
-  duration: 10  # seconds
-  n_mels: 128
-  hop_length: 320
-  n_fft: 1024
+  duration: 10  # seconds — 10 s × 32 kHz = 320 000 samples
+  n_mels: 64          # notebook CFG.N_MELS = 64
+  hop_length: 320     # notebook CFG.HOP_LENGTH = 320
+  n_fft: 1024         # notebook CFG.N_FFT = 1024
+  target_frames: 1000 # (n_samples / hop_length) = 320000 / 320 = 1000
+  f_min: 50.0         # notebook CFG.F_MIN = 50
+  f_max: 14000.0      # notebook CFG.F_MAX = 14000
 
 training:
   seed: 42
-  batch_size: 24
-  num_workers: 4
+  batch_size: 16       # notebook CFG.BATCH_SIZE = 16
+  num_workers: 2       # notebook CFG.NUM_WORKERS = 2
 
+  # Stage 1 — CNN14 from scratch; AST head-only
   stage1:
     epochs: 8
-    lr: 3.0e-4
-    frozen: true  # backbone frozen, only heads train
+    lr: 1.0e-4          # notebook CFG.LR = 1e-4
+    scheduler: OneCycleLR
+    train_cnn14: true
+    freeze_ast_backbone: true
 
+  # Stage 2 — full fine-tune with lower LR, unfreeze AST last 4 blocks
   stage2:
-    epochs: 40
-    lr: 5.0e-5
-    scheduler: CosineAnnealingLR
+    epochs: 42          # remaining budget to total ≈50 (notebook EPOCHS = 50)
+    lr: 1.0e-4
+    scheduler: OneCycleLR
     unfreeze_cnn14: true
-    unfreeze_ast_layers: 4  # last 4 transformer blocks
+    unfreeze_ast_layers: 4  # last 4 DeiT transformer blocks
 
-  weight_decay: 5.0e-3
-  label_smoothing: 0.05
-  pos_weight: 1.2  # corrects noncooking recall bias
+  weight_decay: 1.0e-4        # L2 penalty applied to all trainable weights
+  label_smoothing: 0.05       # Softens binary targets to [0.025, 0.975] to prevent overconfidence
+  pos_weight: 1.2             # Scales positive class loss to correct recall bias
+  gradient_clip_norm: 1.0     # Clips gradients to max L2 norm of 1.0 to prevent exploding gradients
+  mixed_precision: true       # Enables PyTorch AMP (Automatic Mixed Precision) for faster training
+  early_stopping_patience: 15  # Stop training if validation F1 doesn't improve for 15 epochs
+  early_stopping_min_delta: 1.0e-3 # Minimum improvement required to reset patience
+
+augmentation:
+  spec_augment: true          # Apply SpecAugment (frequency and time masking) to log-mels
+  frequency_mask_param: 24    # Maximum width of frequency bands to mask
+  time_mask_param: 96         # Maximum width of time segments to mask
+  # Notebook used gain (0.7–1.3) + time-shift augmentation on raw waveform
+  mixup_alpha: 0.4            # Alpha parameter for Mixup interpolation between batch samples
 
 ensemble:
-  cnn14_weight: 0.35
-  ast_weight: 0.65  # AST-heavy since AST outperforms CNN14
+  cnn14_weight: 0.45   # notebook CFG.CNN14_WEIGHT = 0.45
+  ast_weight: 0.55     # notebook CFG.AST_WEIGHT  = 0.55
+
+evaluation:
+  threshold: 0.5
+  # Threshold search range tested in notebook: 0.3 → 0.6 (best was 0.6)
+  threshold_search:
+    minimum: 0.30
+    maximum: 0.70
+    step: 0.01
